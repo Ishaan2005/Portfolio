@@ -100,7 +100,7 @@ export const CoffeePreloader: React.FC<CoffeePreloaderProps> = ({ onComplete }) 
         }}
       >
         <video
-          src="/loading.mp4"
+          src={`${import.meta.env.BASE_URL}loading.mp4`}
           autoPlay
           loop
           muted

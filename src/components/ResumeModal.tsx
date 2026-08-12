@@ -18,7 +18,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <img
-              src="/ishaan.jpeg"
+              src={`${import.meta.env.BASE_URL}ishaan.jpeg`}
               alt="Ishaan Bhimajiyani"
               style={{
                 width: '68px',

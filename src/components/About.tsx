@@ -25,7 +25,7 @@ export const About: React.FC = () => {
             <div className="card-hardware" style={{ padding: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-subtle)' }}>
                 <img
-                  src="/ishaan.jpeg"
+	   	  src={`${import.meta.env.BASE_URL}ishaan.jpeg`}
                   alt="Ishaan Bhimajiyani"
                   style={{
                     width: '56px',

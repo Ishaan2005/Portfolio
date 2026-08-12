@@ -131,7 +131,7 @@ export const Hero: React.FC = () => {
               }}
             >
               <img
-                src="/ishaan.jpeg"
+                src={`${import.meta.env.BASE_URL}ishaan.jpeg`}
                 alt="Ishaan Bhimajiyani"
                 style={{
                   width: '100%',

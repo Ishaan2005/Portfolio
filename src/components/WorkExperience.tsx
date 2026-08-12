@@ -10,7 +10,7 @@ export const WorkExperience: React.FC = () => {
       company: 'ONGC (Oil and Natural Gas Corporation)',
       location: 'Ahmedabad',
       domain: 'Industrial Automation & Networking',
-      imageUrl: '/ongc.jpg',
+      imageUrl: `${import.meta.env.BASE_URL}ongc.jpg`,
       description:
         'Interned at ONGC, where I explored real-world industrial automation and networking. I worked with SCADA systems and RTUs, and gained hands-on experience with MODBUS, PROFIBUS, and FOUNDATION Fieldbus protocols. I configured VLANs, and set up Inter-VLAN and Intra-VLAN routing on Cisco 1941 routers and Catalyst switches. I also set up PXE boot and built offline YUM repositories on Rocky Linux.',
       technologies: [
