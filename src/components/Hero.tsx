@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { GithubIcon } from './Icons';
-import { VscodePets } from './VscodePets';
 
 export const Hero: React.FC = () => {
   const techStack = [
@@ -114,11 +113,8 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Clean Photo Display with VSCode Pets Animated Ledge Above */}
+          {/* Right Column: Clean Photo Display */}
           <div>
-            {/* VSCode Pets Walking Playground Above Photo */}
-            <VscodePets />
-
             {/* Photo Container */}
             <div
               style={{
@@ -126,7 +122,8 @@ export const Hero: React.FC = () => {
                 height: '420px',
                 borderRadius: '12px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px rgba(0,0,0,0.18)',
+                boxShadow: '0 12px 30px rgba(0,0,0,0.4)',
+                border: '1px solid var(--border-subtle)',
                 position: 'relative',
               }}
             >

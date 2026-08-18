@@ -45,16 +45,18 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
           <button
             onClick={onClose}
             style={{
-              background: '#6e3f1f',
-              border: '1px solid #522d14',
-              color: '#ffffff',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-muted)',
               padding: '0.4rem 0.6rem',
-              borderRadius: '14px 4px 14px 4px',
+              borderRadius: '6px',
               cursor: 'pointer',
-              boxShadow: '0 2px 6px rgba(110,63,31,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <X size={18} style={{ color: '#ffffff' }} />
+            <X size={18} />
           </button>
         </div>
 
@@ -156,18 +158,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
           <button
             onClick={onClose}
-            className="mono"
-            style={{
-              color: '#ffffff',
-              background: '#6e3f1f',
-              border: '1px solid #522d14',
-              borderRadius: '16px 5px 16px 5px',
-              padding: '0.45rem 1rem',
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              boxShadow: '0 4px 10px rgba(110,63,31,0.3)',
-            }}
+            className="btn btn-outline btn-sm mono"
           >
             Close Viewer
           </button>
@@ -175,21 +166,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             href="https://github.com/Ishaan2005"
             target="_blank"
             rel="noopener noreferrer"
-            className="mono"
-            style={{
-              color: '#ffffff',
-              background: '#8c522b',
-              border: '1px solid #522d14',
-              borderRadius: '16px 5px 16px 5px',
-              padding: '0.45rem 1rem',
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              boxShadow: '0 4px 10px rgba(140,82,43,0.35)',
-            }}
+            className="btn btn-primary btn-sm mono"
           >
             <GithubIcon size={14} />
             GitHub Profile

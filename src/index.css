@@ -1,49 +1,8 @@
 /* Custom Design System for Ishaan Bhimajiyani Portfolio */
-/* Cream & Cappuccino (Default) & Dark Silicon Theme System */
+/* Dark Silicon Engineering Theme System */
 
 :root {
-  /* Default Theme: Cream & Cappuccino Combination */
-  --bg-dark: #f6f1e8;
-  --bg-surface: #ede5d8;
-  --bg-card: #f2ebe1;
-  --bg-card-hover: #e8decb;
-  --bg-code: #e5dac9;
-  --header-bg: rgba(246, 241, 232, 0.94);
-  --modal-overlay-bg: rgba(43, 31, 23, 0.75);
-  
-  --hero-overlay-start: rgba(246, 241, 232, 0.82);
-  --hero-overlay-end: rgba(246, 241, 232, 0.40);
-  
-  --border-subtle: #d9cbba;
-  --border-active: #b89f88;
-  --border-cyan: rgba(140, 82, 43, 0.35);
-  
-  --accent-cyan: #8c522b;
-  --accent-cyan-light: #6e3f1f;
-  --accent-cyan-dim: rgba(140, 82, 43, 0.14);
-  --accent-blue: #734324;
-  
-  --text-main: #2b1f17;
-  --text-body: #4a3b32;
-  --text-muted: #6e5a4c;
-  --text-dim: #8c786a;
-  --btn-primary-text: #fbf8f3;
-  
-  --grid-dot: rgba(140, 82, 43, 0.1);
-  --grid-line: rgba(61, 48, 39, 0.035);
-
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
-
-  --max-width: 1200px;
-  --header-height: 58px;
-
-  /* Custom Coffee Cup Cursor (Straw tip is exact hotspot pointer at 16, 2) */
-  --custom-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2V12' stroke='%238c522b' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M16 2V12' stroke='%23ffffff' stroke-width='1' stroke-linecap='round'/%3E%3Cpath d='M9 12H23C24 12 24.5 13 24.5 14H7.5C7.5 13 8 12 9 12Z' fill='%235c381e'/%3E%3Cpath d='M8.5 14L10 27C10.2 28.5 11.5 29.5 13 29.5H19C20.5 29.5 21.8 28.5 22 27L23.5 14H8.5Z' fill='%238c522b' stroke='%232b1f17' stroke-width='1.2'/%3E%3Cpath d='M9.2 19H22.8L22.2 24H9.8L9.2 19Z' fill='%23ede5d8' opacity='0.9'/%3E%3Ccircle cx='16' cy='21.5' r='1.5' fill='%238c522b'/%3E%3C/svg%3E") 16 2, auto;
-}
-
-/* Optional Dark Theme: Dark Silicon Engineering */
-html[data-theme="dark"] {
+  /* Dark Silicon Engineering Theme */
   --bg-dark: #070a0f;
   --bg-surface: #0d121c;
   --bg-card: #121824;
@@ -73,6 +32,12 @@ html[data-theme="dark"] {
   --grid-dot: rgba(6, 182, 212, 0.08);
   --grid-line: rgba(255, 255, 255, 0.018);
 
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+
+  --max-width: 1200px;
+  --header-height: 58px;
+
   /* Dark Silicon Coffee Cup Cursor */
   --custom-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2V12' stroke='%2306b6d4' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M16 2V12' stroke='%23ffffff' stroke-width='1' stroke-linecap='round'/%3E%3Cpath d='M9 12H23C24 12 24.5 13 24.5 14H7.5C7.5 13 8 12 9 12Z' fill='%230e7490'/%3E%3Cpath d='M8.5 14L10 27C10.2 28.5 11.5 29.5 13 29.5H19C20.5 29.5 21.8 28.5 22 27L23.5 14H8.5Z' fill='%23121824' stroke='%2306b6d4' stroke-width='1.2'/%3E%3Cpath d='M9.2 19H22.8L22.2 24H9.8L9.2 19Z' fill='%2306b6d4' opacity='0.25'/%3E%3Ccircle cx='16' cy='21.5' r='1.5' fill='%2306b6d4'/%3E%3C/svg%3E") 16 2, auto;
 }
@@ -89,7 +54,7 @@ html[data-theme="dark"] {
 
 html {
   scroll-behavior: smooth;
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body {
@@ -174,7 +139,7 @@ p {
   margin-bottom: 1.75rem;
 }
 
-/* Coffee Bean Shaped Section Tag (Espresso Brown with White Font) */
+/* Silicon Section Tag */
 .section-tag {
   display: inline-flex;
   align-items: center;
@@ -182,20 +147,20 @@ p {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
-  color: #ffffff !important;
-  background: #6e3f1f;
-  border: 1px solid #522d14;
+  color: var(--accent-cyan) !important;
+  background: var(--accent-cyan-dim);
+  border: 1px solid var(--border-cyan);
   padding: 0.25rem 0.85rem;
-  border-radius: 16px 5px 16px 5px;
+  border-radius: 4px;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  box-shadow: 0 3px 10px rgba(110, 63, 31, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.15);
   position: relative;
 }
 
 .section-tag svg {
-  color: #ffffff !important;
+  color: var(--accent-cyan) !important;
 }
 
 .section-title {
@@ -223,7 +188,7 @@ p {
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   font-family: var(--font-sans);
   border: 1px solid transparent;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-primary {
@@ -236,14 +201,14 @@ p {
 .btn-primary:hover {
   background: var(--accent-cyan-light);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 24px var(--accent-cyan-dim), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 24px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .btn-secondary {
   background: var(--bg-surface);
   color: var(--text-main);
   border-color: var(--border-subtle);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .btn-secondary:hover {
@@ -251,7 +216,7 @@ p {
   border-color: var(--border-active);
   color: var(--text-main);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
 }
 
 .btn-outline {
@@ -272,29 +237,6 @@ p {
   font-size: 0.8125rem;
 }
 
-/* Theme Switcher Toggle Button */
-.theme-toggle-btn {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-main);
-  padding: 0.45rem 0.75rem;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.theme-toggle-btn:hover {
-  border-color: var(--border-cyan);
-  color: var(--accent-cyan);
-  background: var(--accent-cyan-dim);
-  transform: translateY(-1px);
-}
-
 /* Tech Tag / Badge with Subtle Depth */
 .tech-tag {
   display: inline-flex;
@@ -308,7 +250,7 @@ p {
   padding: 0.25rem 0.625rem;
   border-radius: 4px;
   transition: border-color 0.2s, transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .tech-tag:hover {
@@ -323,17 +265,17 @@ p {
   border-color: var(--border-cyan);
 }
 
-/* Card Container Base - Light Brown Styling */
+/* Card Container Base - Silicon Dark Theme Styling */
 .card-hardware {
-  background: #ede2d3;
-  border: 1.5px solid #d6c4b0;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
   border-radius: 12px;
   position: relative;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   overflow: hidden;
   box-shadow: 
-    0 10px 25px -5px rgba(60, 35, 18, 0.12),
-    0 4px 10px -2px rgba(60, 35, 18, 0.06);
+    0 10px 25px -5px rgba(0, 0, 0, 0.4),
+    0 4px 10px -2px rgba(0, 0, 0, 0.2);
 }
 
 .card-hardware::before {
@@ -343,18 +285,18 @@ p {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #8c522b, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .card-hardware:hover {
-  background: #e6dac8;
-  border-color: #8c522b;
+  background: var(--bg-card-hover);
+  border-color: var(--accent-cyan);
   transform: translateY(-4px);
   box-shadow: 
-    0 20px 40px -10px rgba(60, 35, 18, 0.2),
-    0 8px 16px -4px rgba(60, 35, 18, 0.1);
+    0 20px 40px -10px rgba(0, 0, 0, 0.6),
+    0 8px 16px -4px rgba(6, 182, 212, 0.2);
 }
 
 .card-hardware:hover::before {
@@ -362,44 +304,44 @@ p {
 }
 
 .card-hardware h3 {
-  color: #2b1f17 !important;
+  color: var(--text-main) !important;
 }
 
 .card-hardware p {
-  color: #4a3b32 !important;
+  color: var(--text-muted) !important;
 }
 
 .card-hardware .tech-tag {
-  background: #dfd0bd;
-  border-color: #c8b59e;
-  color: #3b281b;
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  color: var(--text-body);
 }
 
 .card-hardware .mono {
-  color: #6e3f1f;
+  color: var(--accent-cyan);
 }
 
 /* Specialized 3D Perspective Hardware Card for Hero */
 .card-hardware-3d {
-  background: #ede2d3;
-  border: 1.5px solid #d6c4b0;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
   border-radius: 12px;
   position: relative;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 
-    0 20px 45px -10px rgba(60, 35, 18, 0.2),
-    0 8px 20px -4px rgba(60, 35, 18, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    0 20px 45px -10px rgba(0, 0, 0, 0.6),
+    0 8px 20px -4px rgba(6, 182, 212, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
   transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
 }
 
 .card-hardware-3d:hover {
   transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-5px) scale(1.01);
   box-shadow: 
-    0 30px 60px -12px rgba(60, 35, 18, 0.28),
-    0 12px 24px -6px rgba(60, 35, 18, 0.16),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5);
-  border-color: #8c522b;
+    0 30px 60px -12px rgba(0, 0, 0, 0.8),
+    0 12px 24px -6px rgba(6, 182, 212, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-cyan);
 }
 
 /* Custom Scrollbar */
@@ -445,7 +387,7 @@ p {
   overflow-y: auto;
   padding: 2rem;
   position: relative;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
 }
 
 @keyframes fadeIn {
@@ -467,5 +409,6 @@ p {
     transform: none !important;
   }
 }
+
 
 
