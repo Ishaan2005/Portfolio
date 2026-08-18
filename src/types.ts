@@ -31,6 +31,7 @@ export interface WorkExperienceItem {
   id: string;
   role: string;
   company: string;
+  period?: string;
   location?: string;
   domain: string;
   description: string;

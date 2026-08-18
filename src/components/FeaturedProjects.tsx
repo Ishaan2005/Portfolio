@@ -122,23 +122,17 @@ endmodule`,
       <div className="container">
         {/* Section Header */}
         <div className="section-header">
-          <div className="section-tag">
-            <Cpu size={14} /> FEATURED ENGINEERING PROJECTS
-          </div>
           <h2 className="section-title">
-            Digital Design & Silicon Implementations
+            Projects
           </h2>
-          <p className="section-subtitle">
-            Open-source silicon tools, RTL codebases, bus protocol interfaces, and interactive layout visualization.
-          </p>
         </div>
 
         {/* Projects Grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.15rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1rem',
           }}
         >
           {projects.map((project) => (
@@ -149,7 +143,7 @@ endmodule`,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                padding: '1.25rem',
+                padding: '1rem',
               }}
             >
               <div>
@@ -159,31 +153,31 @@ endmodule`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: '0.65rem',
+                    marginBottom: '0.5rem',
                   }}
                 >
                   <span
                     className="mono"
                     style={{
-                      fontSize: '0.725rem',
+                      fontSize: '0.7rem',
                       color: 'var(--accent-cyan)',
                       background: 'var(--accent-cyan-dim)',
                       border: '1px solid var(--border-cyan)',
-                      padding: '0.15rem 0.45rem',
+                      padding: '0.12rem 0.4rem',
                       borderRadius: '4px',
                     }}
                   >
                     {project.subtitle || 'HARDWARE MODULE'}
                   </span>
-                  <Cpu size={15} style={{ color: 'var(--text-dim)' }} />
+                  <Cpu size={14} style={{ color: 'var(--text-dim)' }} />
                 </div>
 
                 {/* Project Title */}
                 <h3
                   style={{
-                    fontSize: '1.1875rem',
+                    fontSize: '1.1rem',
                     color: 'var(--text-main)',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.35rem',
                     lineHeight: 1.25,
                   }}
                 >
@@ -193,10 +187,10 @@ endmodule`,
                 {/* Description */}
                 <p
                   style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.85rem',
                     color: 'var(--text-muted)',
-                    marginBottom: '1rem',
-                    lineHeight: 1.5,
+                    marginBottom: '0.75rem',
+                    lineHeight: 1.45,
                   }}
                 >
                   {project.description}
@@ -207,8 +201,8 @@ endmodule`,
                   style={{
                     display: 'flex',
                     flexWrap: 'wrap',
-                    gap: '0.35rem',
-                    marginBottom: '1.15rem',
+                    gap: '0.3rem',
+                    marginBottom: '0.85rem',
                   }}
                 >
                   {project.technologies.map((tech) => (
@@ -224,8 +218,8 @@ endmodule`,
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  paddingTop: '1rem',
+                  gap: '0.4rem',
+                  paddingTop: '0.75rem',
                   borderTop: '1px solid var(--border-subtle)',
                   flexWrap: 'wrap',
                 }}
@@ -239,7 +233,7 @@ endmodule`,
                     style={{ flex: '1 1 auto' }}
                   >
                     Live Demo
-                    <ExternalLink size={14} />
+                    <ExternalLink size={13} />
                   </a>
                 )}
                 <button
@@ -248,7 +242,7 @@ endmodule`,
                   style={{ flex: project.demoUrl ? '0 1 auto' : 1 }}
                 >
                   View Spec
-                  <ArrowUpRight size={14} />
+                  <ArrowUpRight size={13} />
                 </button>
                 <a
                   href={project.githubUrl}
@@ -257,7 +251,7 @@ endmodule`,
                   className="btn btn-outline btn-sm"
                   aria-label={`View ${project.title} on GitHub`}
                 >
-                  <GithubIcon size={16} />
+                  <GithubIcon size={14} />
                   GitHub
                 </a>
               </div>

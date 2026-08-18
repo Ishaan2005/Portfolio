@@ -67,7 +67,7 @@ export const Navbar: React.FC = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.4rem',
           }}
           className="desktop-nav"
         >
@@ -82,15 +82,15 @@ export const Navbar: React.FC = () => {
                 style={{
                   color: isActive ? 'var(--accent-cyan)' : 'var(--text-main)',
                   textDecoration: 'none',
-                  fontSize: '0.85rem',
+                  fontSize: '0.825rem',
                   fontWeight: 600,
-                  padding: '0.42rem 0.9rem',
+                  padding: '0.35rem 0.75rem',
                   borderRadius: '6px',
                   transition: 'all 0.2s ease',
                   backgroundColor: isActive ? 'var(--accent-cyan-dim)' : 'transparent',
                   border: isActive ? '1px solid var(--border-cyan)' : '1px solid transparent',
                   boxShadow: isActive
-                    ? '0 2px 10px rgba(6, 182, 212, 0.2)'
+                    ? '0 2px 8px rgba(6, 182, 212, 0.2)'
                     : 'none',
                 }}
               >
