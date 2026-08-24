@@ -16,6 +16,7 @@ export const FeaturedProjects: React.FC = () => {
       technologies: ['TypeScript', 'GDSII', 'Sky130', 'ASIC Layout'],
       githubUrl: 'https://github.com/Ishaan2005/gds-viewer',
       demoUrl: 'https://ishaan2005.github.io/gds-viewer/',
+      imageUrl: `${import.meta.env.BASE_URL}images/gdsfile.png`,
       specDetails: {
         overview:
           "Open-source physical layout visualizer designed as a clone of Tiny Tapeout's GDS viewer. Renders GDSII IC layouts directly in the browser with multi-layer visibility, cell hierarchy inspection, and real-time canvas navigation.",
@@ -47,6 +48,8 @@ const sky130Layers = {
       description: 'FSM-based AMBA APB3 master/slave interface implemented in Verilog with read/write transaction handling.',
       technologies: ['Verilog', 'AMBA APB3', 'FSM', 'RTL'],
       githubUrl: 'https://github.com/Ishaan2005/AMBA-APB3-VerilogHDL',
+      demoUrl: 'https://ishaan2005.github.io/rtl-portfolio/',
+      imageUrl: `${import.meta.env.BASE_URL}images/apb.png`,
       specDetails: {
         overview:
           'Fully synthesizable Verilog implementation of the ARM AMBA 3 APB (Advanced Peripheral Bus) protocol, featuring master and slave control units with robust state-machine protocol enforcement.',
@@ -74,6 +77,127 @@ always @(posedge PCLK or negedge PRESETn) begin
         ACCESS: begin PENABLE <= 1'b1; if (PREADY) state <= IDLE; end
     endcase
 end`,
+      },
+    },
+    {
+      id: 'stp-logic-fsm',
+      title: 'STP Logic using FSM in Verilog HDL',
+      subtitle: 'IEEE 802.1D Spanning Tree Protocol Engine',
+      description: 'Hardware modeling and formal implementation of Spanning Tree Protocol (IEEE 802.1D STP) port state and role transition logic using Finite State Machines (FSM) in Verilog HDL.',
+      technologies: ['Verilog HDL', 'FSM', 'STP / IEEE 802.1D', 'Networking ASIC', 'Icarus Verilog'],
+      githubUrl: 'https://github.com/Ishaan2005/STP-Logic-using-FSM-VerilogHDL',
+      demoUrl: 'https://ishaan2005.github.io/rtl-portfolio/',
+      imageUrl: `${import.meta.env.BASE_URL}images/stp.png`,
+      specDetails: {
+        overview:
+          'Hardware-native implementation of IEEE 802.1D Spanning Tree Protocol (STP) state machine logic in synthesizable Verilog HDL. Designed to eliminate network loops and broadcast storms in Ethernet switch fabrics by managing Blocking, Listening, Learning, and Forwarding port transitions in dedicated digital hardware.',
+        keyFeatures: [
+          'Synthesizable FSM architecture enforcing Blocking, Listening, Learning, and Forwarding port states.',
+          'BPDU (Bridge Protocol Data Unit) packet processing and root port selection logic.',
+          'Hardware-accelerated loop prevention offloading CPU processing on switch line cards.',
+          'Comprehensive simulation verification using Icarus Verilog and GTKWave timing analysis.',
+        ],
+        flowOrMetrics: [
+          { label: 'Protocol Standard', value: 'IEEE 802.1D (STP)' },
+          { label: 'FSM Architecture', value: '4-State Port Engine' },
+          { label: 'Verification', value: 'Icarus / GTKWave' },
+          { label: 'Target Platform', value: 'Switch Fabric ASIC' },
+        ],
+        verilogSnippet: `// STP Port State Machine Transition Logic
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        state <= BLOCKING;
+        forward_enable <= 1'b0;
+        learn_enable   <= 1'b0;
+    end else case (state)
+        BLOCKING:   if (bpdu_received && is_root_port) state <= LISTENING;
+        LISTENING:  if (forward_delay_timer) state <= LEARNING;
+        LEARNING:   begin learn_enable <= 1'b1; if (forward_delay_timer) state <= FORWARDING; end
+        FORWARDING: begin forward_enable <= 1'b1; learn_enable <= 1'b1; if (link_failure) state <= BLOCKING; end
+    endcase
+end`,
+      },
+    },
+    {
+      id: 'mac-unit-openlane',
+      title: 'MAC Unit in Verilog HDL and OpenLane',
+      subtitle: 'RTL to GDSII Physical Design Flow',
+      description: 'Design, verification, and end-to-end automated silicon implementation of a Multiply-Accumulate (MAC) Unit from RTL synthesis to GDSII using the OpenLane EDA flow and Sky130 PDK.',
+      technologies: ['Verilog HDL', 'OpenLane', 'Sky130', 'RTL to GDSII', 'DSP Hardware'],
+      githubUrl: 'https://github.com/Ishaan2005/MAC-Unit-VerilogHDL-OpenLane',
+      demoUrl: 'https://ishaan2005.github.io/rtl-portfolio/',
+      imageUrl: `${import.meta.env.BASE_URL}images/mac.png`,
+      imageBg: '#ffffff',
+      specDetails: {
+        overview:
+          'Full-flow digital physical design of a synthesizable Multiply-Accumulate (MAC) computational engine tailored for DSP datapaths and neural network accelerators. Implemented in Verilog HDL and hardened to final GDSII tapeout layout using the automated OpenLane ASIC flow on SkyWater 130nm PDK.',
+        keyFeatures: [
+          'Pipelined multiply-accumulate architecture optimized for high-throughput arithmetic.',
+          'End-to-end OpenLane physical design flow: synthesis, floorplanning, placement, CTS, and routing.',
+          'Static Timing Analysis (STA), DRC/LVS physical verification cleanly validated on Sky130 PDK.',
+          'Synthesizable datapath targeting AI hardware accelerators and DSP coprocessors.',
+        ],
+        flowOrMetrics: [
+          { label: 'Target PDK', value: 'SkyWater 130nm' },
+          { label: 'Physical Flow', value: 'OpenLane / OpenROAD' },
+          { label: 'Core Architecture', value: 'Pipelined Multiplier-Adder' },
+          { label: 'Output Format', value: 'Synthesized GDSII' },
+        ],
+        verilogSnippet: `// Pipelined Multiply-Accumulate (MAC) Unit
+module mac_unit #(
+    parameter DATA_WIDTH = 16
+)(
+    input  wire                   clk,
+    input  wire                   rst_n,
+    input  wire                   enable,
+    input  wire [DATA_WIDTH-1:0]  a_in,
+    input  wire [DATA_WIDTH-1:0]  b_in,
+    output reg  [2*DATA_WIDTH:0]  acc_out
+);
+    reg [2*DATA_WIDTH-1:0] mult_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            mult_reg <= '0;
+            acc_out  <= '0;
+        end else if (enable) begin
+            mult_reg <= a_in * b_in;
+            acc_out  <= acc_out + mult_reg;
+        end
+    end
+endmodule`,
+      },
+    },
+    {
+      id: 'siliconforge-rtl-viewer',
+      title: 'SiliconForge RTL Project Viewer',
+      subtitle: 'Interactive EDA-Grade RTL Workstation',
+      description: 'Professional interactive EDA workstation and RTL project visualizer featuring real-time Icarus Verilog simulation, VCD waveform rendering, and Yosys gate-level synthesis schematics.',
+      technologies: ['TypeScript', 'React', 'Verilog', 'Yosys', 'VCD Parser', 'EDA Toolchain'],
+      githubUrl: 'https://github.com/Ishaan2005/rtl-portfolio',
+      demoUrl: 'https://ishaan2005.github.io/rtl-portfolio/',
+      imageUrl: `${import.meta.env.BASE_URL}images/siliconforge.png`,
+      specDetails: {
+        overview:
+          'Full-featured interactive EDA workstation designed for semiconductor recruiters and digital hardware engineers. Delivers in-browser Verilog testbench simulation, real-time VCD waveform extraction, and dynamic Yosys gate-level netlist schematic generation.',
+        keyFeatures: [
+          'Interactive multi-project RTL explorer supporting Async FIFO, RISC-V ALU, APB protocols, and custom datapaths.',
+          'In-browser VCD waveform visualizer for inspecting signal transitions and clock-edge timing.',
+          'Automated Yosys synthesis pipeline rendering gate-level schematics via NetlistSVG.',
+          'Full-stack architecture featuring TypeScript, React, and modular simulation workers.',
+        ],
+        flowOrMetrics: [
+          { label: 'Simulation Flow', value: 'Icarus Verilog & VCD' },
+          { label: 'Synthesis Flow', value: 'Yosys / NetlistSVG' },
+          { label: 'Frontend Stack', value: 'React / TypeScript' },
+          { label: 'Toolchain Focus', value: 'EDA Workstation' },
+        ],
+        verilogSnippet: `// SiliconForge EDA Runner Configuration
+interface EDAPipelineConfig {
+  compiler: 'iverilog -g2012';
+  simulator: 'vvp -n';
+  waveformFormat: 'VCD (Value Change Dump)';
+  synthesisEngine: 'yosys -p "prep; show"';
+}`,
       },
     },
     {
@@ -153,7 +277,7 @@ endmodule`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.65rem',
                   }}
                 >
                   <span
@@ -171,6 +295,39 @@ endmodule`,
                   </span>
                   <Cpu size={14} style={{ color: 'var(--text-dim)' }} />
                 </div>
+
+                {/* Project Image Preview */}
+                {project.imageUrl && (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '180px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      marginBottom: '0.85rem',
+                      border: '1px solid var(--border-subtle)',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      background: project.imageBg || 'var(--bg-code)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '6px',
+                    }}
+                  >
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'center',
+                        display: 'block',
+                        borderRadius: '4px',
+                      }}
+                    />
+                  </div>
+                )}
 
                 {/* Project Title */}
                 <h3

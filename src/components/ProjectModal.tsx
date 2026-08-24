@@ -47,6 +47,37 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
         {/* Modal Body */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
+          {/* Project Preview Image */}
+          {project.imageUrl && (
+            <div
+              style={{
+                width: '100%',
+                maxHeight: '300px',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1px solid var(--border-subtle)',
+                background: project.imageBg || 'var(--bg-code)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.65rem',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+              }}
+            >
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '280px',
+                  objectFit: 'contain',
+                  borderRadius: '4px',
+                  display: 'block',
+                }}
+              />
+            </div>
+          )}
+
           {/* Technology Badges */}
           <div>
             <div className="mono" style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>

@@ -6,6 +6,8 @@ export interface Project {
   technologies: string[];
   githubUrl: string;
   demoUrl?: string;
+  imageUrl?: string;
+  imageBg?: string;
   specDetails?: {
     overview: string;
     keyFeatures: string[];

@@ -147,8 +147,11 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               Key Featured Projects
             </h3>
             <ul style={{ paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'var(--text-body)' }}>
+              <li><strong>SiliconForge RTL Project Viewer:</strong> Interactive EDA workstation with real-time Icarus Verilog simulation, VCD waveforms, and Yosys synthesis.</li>
               <li><strong>GDS Viewer:</strong> Interactive GDSII silicon layout visualizer inspired by Tiny Tapeout for Sky130 ASIC floorplan inspection.</li>
               <li><strong>AMBA APB3 Master / Slave:</strong> Synthesizable Verilog FSM protocol interface with PREADY wait-state support.</li>
+              <li><strong>STP Logic using FSM:</strong> IEEE 802.1D Spanning Tree Protocol loop-prevention state machine logic in synthesizable Verilog HDL.</li>
+              <li><strong>Multiply-Accumulate (MAC) Unit:</strong> High-performance arithmetic computational block hardened from RTL to GDSII using OpenLane & Sky130 PDK.</li>
             </ul>
           </div>
 
