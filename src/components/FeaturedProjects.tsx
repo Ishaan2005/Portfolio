@@ -43,9 +43,9 @@ const sky130Layers = {
     },
     {
       id: 'amba-apb3-master-slave',
-      title: 'AMBA APB3 Master / Slave',
+      title: 'AMBA APB5 Master-Slave Module',
       subtitle: 'Synchronous Peripheral Bus Interface',
-      description: 'FSM-based AMBA APB3 master/slave interface implemented in Verilog with read/write transaction handling.',
+      description: 'FSM-based AMBA APB5 master/slave interface implemented in Verilog with read/write transaction handling.',
       technologies: ['Verilog', 'AMBA APB3', 'FSM', 'RTL'],
       githubUrl: 'https://github.com/Ishaan2005/AMBA-APB3-VerilogHDL',
       demoUrl: 'https://ishaan2005.github.io/rtl-portfolio/',
