@@ -11,7 +11,6 @@ export const FeaturedProjects: React.FC = () => {
     {
       id: 'gds-viewer',
       title: 'GDS Viewer',
-      subtitle: 'Tiny Tapeout Interactive Layout Visualizer',
       description: "Web-based interactive GDSII layout viewer inspired by Tiny Tapeout's GDS viewer for exploring ASIC chip floorplans, cell placements, and Sky130 metal routing layers.",
       technologies: ['TypeScript', 'GDSII', 'Sky130', 'ASIC Layout'],
       githubUrl: 'https://github.com/Ishaan2005/gds-viewer',
@@ -44,7 +43,6 @@ const sky130Layers = {
     {
       id: 'amba-apb3-master-slave',
       title: 'AMBA APB5 Master-Slave Module',
-      subtitle: 'Synchronous Peripheral Bus Interface',
       description: 'FSM-based AMBA APB5 master/slave interface implemented in Verilog with read/write transaction handling.',
       technologies: ['Verilog', 'AMBA APB3', 'FSM', 'RTL'],
       githubUrl: 'https://github.com/Ishaan2005/AMBA-APB3-VerilogHDL',
@@ -82,7 +80,6 @@ end`,
     {
       id: 'stp-logic-fsm',
       title: 'STP Logic using FSM in Verilog HDL',
-      subtitle: 'IEEE 802.1D Spanning Tree Protocol Engine',
       description: 'Hardware modeling and formal implementation of Spanning Tree Protocol (IEEE 802.1D STP) port state and role transition logic using Finite State Machines (FSM) in Verilog HDL.',
       technologies: ['Verilog HDL', 'FSM', 'STP / IEEE 802.1D', 'Networking ASIC', 'Icarus Verilog'],
       githubUrl: 'https://github.com/Ishaan2005/STP-Logic-using-FSM-VerilogHDL',
@@ -121,7 +118,6 @@ end`,
     {
       id: 'mac-unit-openlane',
       title: 'MAC Unit in Verilog HDL and OpenLane',
-      subtitle: 'RTL to GDSII Physical Design Flow',
       description: 'Design, verification, and end-to-end automated silicon implementation of a Multiply-Accumulate (MAC) Unit from RTL synthesis to GDSII using the OpenLane EDA flow and Sky130 PDK.',
       technologies: ['Verilog HDL', 'OpenLane', 'Sky130', 'RTL to GDSII', 'DSP Hardware'],
       githubUrl: 'https://github.com/Ishaan2005/MAC-Unit-VerilogHDL-OpenLane',
@@ -170,7 +166,6 @@ endmodule`,
     {
       id: 'siliconforge-rtl-viewer',
       title: 'SiliconForge RTL Project Viewer',
-      subtitle: 'Interactive EDA-Grade RTL Workstation',
       description: 'Professional interactive EDA workstation and RTL project visualizer featuring real-time Icarus Verilog simulation, VCD waveform rendering, and Yosys gate-level synthesis schematics.',
       technologies: ['TypeScript', 'React', 'Verilog', 'Yosys', 'VCD Parser', 'EDA Toolchain'],
       githubUrl: 'https://github.com/Ishaan2005/rtl-portfolio',
@@ -203,7 +198,6 @@ interface EDAPipelineConfig {
     {
       id: 'verilog-codes',
       title: 'Verilog Codes & Digital Logic Suite',
-      subtitle: 'Open-Source RTL Modules & Testbenches',
       description: 'Comprehensive open-source repository of synthesizable Verilog HDL modules, state machine controllers, UART interfaces, ALU datapaths, and simulation testbenches.',
       technologies: ['Verilog HDL', 'ModelSim', 'GTKWave', 'Icarus Verilog', 'RTL Design'],
       githubUrl: 'https://github.com/Ishaan2005/Verilog_codes',
@@ -272,29 +266,31 @@ endmodule`,
             >
               <div>
                 {/* Chip Header Tag */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginBottom: '0.65rem',
-                  }}
-                >
-                  <span
-                    className="mono"
+                {project.subtitle && (
+                  <div
                     style={{
-                      fontSize: '0.7rem',
-                      color: 'var(--accent-cyan)',
-                      background: 'var(--accent-cyan-dim)',
-                      border: '1px solid var(--border-cyan)',
-                      padding: '0.12rem 0.4rem',
-                      borderRadius: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '0.65rem',
                     }}
                   >
-                    {project.subtitle || 'HARDWARE MODULE'}
-                  </span>
-                  <Cpu size={14} style={{ color: 'var(--text-dim)' }} />
-                </div>
+                    <span
+                      className="mono"
+                      style={{
+                        fontSize: '0.7rem',
+                        color: 'var(--accent-cyan)',
+                        background: 'var(--accent-cyan-dim)',
+                        border: '1px solid var(--border-cyan)',
+                        padding: '0.12rem 0.4rem',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      {project.subtitle}
+                    </span>
+                    <Cpu size={14} style={{ color: 'var(--text-dim)' }} />
+                  </div>
+                )}
 
                 {/* Project Image Preview */}
                 {project.imageUrl && (

@@ -90,9 +90,6 @@ export const Contact: React.FC = () => {
               >
                 {emailAddress}
               </a>
-              <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.25rem' }}>
-                [Click to send email directly to Ishaan]
-              </div>
             </div>
 
             {/* GitHub Card */}
@@ -110,9 +107,6 @@ export const Contact: React.FC = () => {
               <div className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
                 github.com/Ishaan2005
               </div>
-              <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.25rem' }}>
-                [Verilog & Digital Logic Repositories]
-              </div>
             </a>
 
             {/* LinkedIn Card */}
@@ -129,9 +123,6 @@ export const Contact: React.FC = () => {
               </div>
               <div className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
                 linkedin.com/in/ishaan-bhimajiyani
-              </div>
-              <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.25rem' }}>
-                [Connect on LinkedIn]
               </div>
             </a>
 
