@@ -48,9 +48,6 @@ export const Footer: React.FC = () => {
               <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.9rem' }}>
                 Ishaan Bhimajiyani
               </div>
-              <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-                ECE Engineer · VLSI & Computer Architecture
-              </div>
             </div>
           </div>
 

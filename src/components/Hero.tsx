@@ -11,11 +11,9 @@ export const Hero: React.FC = () => {
   ];
 
   const fullName = 'Ishaan Bhimajiyani';
-  const fullHeadline = 'ECE Engineer building at the intersection of Digital Design, VLSI and Computer Architecture.';
 
   const [typedName, setTypedName] = useState('');
-  const [typedHeadline, setTypedHeadline] = useState('');
-  const [phase, setPhase] = useState<'name' | 'headline' | 'done'>('name');
+  const [phase, setPhase] = useState<'name' | 'done'>('name');
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -26,22 +24,12 @@ export const Hero: React.FC = () => {
           setTypedName(fullName.slice(0, typedName.length + 1));
         }, 50);
       } else {
-        timer = setTimeout(() => {
-          setPhase('headline');
-        }, 220);
-      }
-    } else if (phase === 'headline') {
-      if (typedHeadline.length < fullHeadline.length) {
-        timer = setTimeout(() => {
-          setTypedHeadline(fullHeadline.slice(0, typedHeadline.length + 1));
-        }, 22);
-      } else {
         setPhase('done');
       }
     }
 
     return () => clearTimeout(timer);
-  }, [typedName, typedHeadline, phase]);
+  }, [typedName, phase]);
 
   return (
     <section
@@ -62,7 +50,7 @@ export const Hero: React.FC = () => {
             {/* Main Name */}
             <h1
               style={{
-                marginBottom: '0.45rem',
+                marginBottom: '0.85rem',
                 letterSpacing: '-0.03em',
                 color: 'var(--text-main)',
                 minHeight: '1.15em',
@@ -71,21 +59,6 @@ export const Hero: React.FC = () => {
               {typedName}
               {phase === 'name' && <span className="typing-cursor">|</span>}
             </h1>
-
-            {/* Headline */}
-            <h2
-              style={{
-                fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)',
-                fontWeight: 500,
-                color: 'var(--text-main)',
-                lineHeight: 1.3,
-                marginBottom: '0.65rem',
-                minHeight: '2.6em',
-              }}
-            >
-              {typedHeadline}
-              {phase === 'headline' && <span className="typing-cursor">|</span>}
-            </h2>
 
             {/* Supporting Text */}
             <p
