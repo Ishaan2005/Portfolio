@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Send, CheckCircle2, Copy } from 'lucide-react';
+import { Mail, Send, CheckCircle2, Copy, ExternalLink } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 
 export const Contact: React.FC = () => {
@@ -98,15 +98,19 @@ export const Contact: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="card-hardware"
-              style={{ padding: '0.85rem 1rem', textDecoration: 'none' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.85rem 1rem',
+                textDecoration: 'none',
+              }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-cyan)', marginBottom: '0.35rem' }}>
-                <GithubIcon size={18} />
-                <span className="mono" style={{ fontSize: '0.75rem', fontWeight: 600 }}>GITHUB PROFILE</span>
-              </div>
-              <div className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                github.com/Ishaan2005
-              </div>
+              <GithubIcon size={18} style={{ color: 'var(--accent-cyan)' }} />
+              <span className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
+                Github
+              </span>
+              <ExternalLink size={14} style={{ color: 'var(--text-dim)', marginLeft: 'auto' }} />
             </a>
 
             {/* LinkedIn Card */}
@@ -115,15 +119,19 @@ export const Contact: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="card-hardware"
-              style={{ padding: '0.85rem 1rem', textDecoration: 'none' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.85rem 1rem',
+                textDecoration: 'none',
+              }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-cyan)', marginBottom: '0.35rem' }}>
-                <LinkedinIcon size={18} />
-                <span className="mono" style={{ fontSize: '0.75rem', fontWeight: 600 }}>LINKEDIN PROFILE</span>
-              </div>
-              <div className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                linkedin.com/in/ishaan-bhimajiyani
-              </div>
+              <LinkedinIcon size={18} style={{ color: 'var(--accent-cyan)' }} />
+              <span className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
+                Linkedin
+              </span>
+              <ExternalLink size={14} style={{ color: 'var(--text-dim)', marginLeft: 'auto' }} />
             </a>
 
           </div>
