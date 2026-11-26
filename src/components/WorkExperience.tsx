@@ -1,252 +1,182 @@
-import React, { useState, useEffect } from 'react';
-import { Building2, Server, Calendar } from 'lucide-react';
-import type { WorkExperienceItem } from '../types';
+import { Building2, Calendar, GraduationCap, MapPin, Server } from 'lucide-react';
+import {
+  EDUCATION,
+  WORK_EXPERIENCE,
+} from '../data/portfolioData';
 
-export const WorkExperience: React.FC = () => {
-  const fullTitle = 'Internships & Professional Experience';
-  const [typedTitle, setTypedTitle] = useState('');
-  const [isTypingDone, setIsTypingDone] = useState(false);
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (typedTitle.length < fullTitle.length) {
-      timer = setTimeout(() => {
-        setTypedTitle(fullTitle.slice(0, typedTitle.length + 1));
-      }, 35);
-    } else {
-      setIsTypingDone(true);
-    }
-    return () => clearTimeout(timer);
-  }, [typedTitle]);
-
-  const experiences: WorkExperienceItem[] = [
-    {
-      id: 'ongc',
-      role: 'Summer Intern',
-      company: 'ONGC (Oil and Natural Gas Corporation)',
-      period: 'May 2025 – June 2025',
-      location: 'Ahmedabad',
-      domain: 'Industrial Automation & Networking',
-      imageUrl: `${import.meta.env.BASE_URL}images/ongc.jpg`,
-      description:
-        'Interned at ONGC, where I explored real-world industrial automation and networking. I worked with SCADA systems and RTUs, and gained hands-on experience with MODBUS, PROFIBUS, and FOUNDATION Fieldbus protocols. I configured VLANs, and set up Inter-VLAN and Intra-VLAN routing on Cisco 1941 routers and Catalyst switches. I also set up PXE boot and built offline YUM repositories on Rocky Linux.',
-      technologies: [
-        'SCADA & RTU',
-        'MODBUS',
-        'PROFIBUS',
-        'FOUNDATION Fieldbus',
-        'Cisco 1941',
-        'Catalyst Switches',
-        'VLAN / Inter-VLAN Routing',
-        'PXE Boot',
-        'YUM Repositories',
-        'Rocky Linux',
-      ],
-    },
-    {
-      id: 'ishan-tech',
-      role: 'Network Monitoring Intern',
-      company: 'Ishan Technologies',
-      period: 'Feb 2026 – July 2026',
-      location: 'Ahmedabad',
-      domain: 'ISP Network Infrastructure & Monitoring',
-      imageUrl: `${import.meta.env.BASE_URL}images/certi.png`,
-      description:
-        "Worked at the center of an ISP as a network monitoring intern, monitoring and helping manage company’s network. Collaborated with network engineers and system administrators. Applied basic automation using Python scripts. Helped maintain and improve the Zabbix based monitoring system, along with data pre-processing. Provided testing inputs for the newly implemented N-ticketing module.",
-      technologies: [
-        'ISP Network Monitoring',
-        'Zabbix',
-        'Python Automation',
-        'Data Pre-Processing',
-        'System Administration',
-        'N-Ticketing Module',
-        'Network Operations',
-      ],
-    },
-  ];
-
+export function WorkExperience() {
   return (
-    <section id="experience" className="section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <h2 className="section-title" style={{ minHeight: '1.2em' }}>
-            {typedTitle}
-            {!isTypingDone && <span className="typing-cursor">|</span>}
+    <section
+      id="experience"
+      className="bkm-section bkm-speck-light"
+      aria-labelledby="bkm-exp-heading"
+    >
+      <div className="bkm-inner">
+        <div className="bkm-sec-head">
+          <h2 id="bkm-exp-heading" className="bkm-h2">
+            Experience &amp; Education
           </h2>
-          <p className="section-subtitle">
-            Hands-on work in industrial automation, SCADA networks, ISP operations, Zabbix system monitoring, and Linux administration.
-          </p>
         </div>
 
-        {/* Experience Cards Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem',
-          }}
-        >
-          {experiences.map((exp) => (
+        {/* Education Editorial Banner */}
+        <div className="bkm-edu-banner">
+          <div style={{ maxWidth: '64ch' }}>
             <div
-              key={exp.id}
-              className="card-hardware"
+              className="bkm-mono"
               style={{
-                padding: '1rem',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '0.85rem',
-                borderLeft: '3px solid var(--accent-cyan)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                marginBottom: 8,
               }}
             >
+              <GraduationCap size={15} aria-hidden="true" />
+              <span>EDUCATION · {EDUCATION.graduation.toUpperCase()}</span>
+            </div>
+            <h3 style={{ fontSize: 'clamp(20px, 2.2vw, 28px)', fontWeight: 800, lineHeight: 1.15 }}>
+              {EDUCATION.degree}
+            </h3>
+            <p style={{ fontSize: 15, fontWeight: 700, marginTop: 4 }}>
+              {EDUCATION.institution} · {EDUCATION.minor}
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, maxWidth: 420 }}>
+            {EDUCATION.focus.map((item) => (
+              <span
+                key={item}
+                className="bkm-chip"
+                style={{ background: 'var(--paper)', color: 'var(--ink)' }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Internships Grid */}
+        <div className="bkm-exp-grid">
+          {WORK_EXPERIENCE.map((exp) => (
+            <article key={exp.id} className="bkm-exp-card">
               <div>
-                {/* Header Tag Info */}
                 <div
                   style={{
                     display: 'flex',
+                    flexWrap: 'wrap',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: '0.75rem',
-                    flexWrap: 'wrap',
-                    gap: '0.4rem',
+                    gap: 8,
+                    marginBottom: 12,
                   }}
                 >
                   <span
-                    className="mono"
+                    className="bkm-mono"
                     style={{
-                      fontSize: '0.725rem',
-                      color: 'var(--accent-cyan)',
-                      background: 'var(--accent-cyan-dim)',
-                      border: '1px solid var(--border-cyan)',
-                      padding: '0.2rem 0.5rem',
-                      borderRadius: '4px',
-                      fontWeight: 600,
+                      padding: '4px 10px',
+                      borderRadius: 999,
+                      border: '1.5px solid var(--ink)',
+                      background: 'var(--butter)',
+                      fontWeight: 700,
                     }}
                   >
-                    {exp.role.toUpperCase()}
+                    {exp.role}
                   </span>
                   <span
-                    className="mono"
+                    className="bkm-mono"
                     style={{
-                      fontSize: '0.725rem',
-                      color: 'var(--text-dim)',
-                      display: 'flex',
+                      display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '0.3rem',
+                      gap: 5,
+                      color: 'var(--blue)',
                     }}
                   >
-                    {exp.id === 'ongc' ? <Building2 size={13} /> : <Server size={13} />}
+                    {exp.id === 'ongc' ? (
+                      <Building2 size={13} aria-hidden="true" />
+                    ) : (
+                      <Server size={13} aria-hidden="true" />
+                    )}
                     {exp.domain}
                   </span>
                 </div>
 
-                {/* Internship Banner Image / Certificate */}
                 {exp.imageUrl && (
                   <div
+                    className="bkm-exp-img"
                     style={{
-                      width: '100%',
-                      height: '185px',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      marginBottom: '0.85rem',
-                      border: '1px solid var(--border-subtle)',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                      background: exp.id === 'ishan-tech' ? 'var(--bg-code)' : 'var(--bg-surface)',
+                      marginBottom: 14,
+                      background: exp.id === 'ishan-tech' ? '#0d3b7d' : 'var(--paper)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      padding: exp.id === 'ishan-tech' ? '6px' : '0',
+                      padding: exp.id === 'ishan-tech' ? 12 : 0,
                     }}
                   >
                     <img
                       src={exp.imageUrl}
-                      alt={`${exp.company} Internship`}
+                      alt={`${exp.company} internship`}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',
                         objectFit: exp.id === 'ishan-tech' ? 'contain' : 'cover',
-                        objectPosition: 'center',
                         display: 'block',
-                        borderRadius: exp.id === 'ishan-tech' ? '4px' : '0',
                       }}
                     />
                   </div>
                 )}
 
-                {/* Company Name */}
-                <h3
-                  style={{
-                    fontSize: '1.15rem',
-                    color: 'var(--text-main)',
-                    marginBottom: '0.25rem',
-                    lineHeight: 1.25,
-                  }}
-                >
+                <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>
                   {exp.company}
                 </h3>
 
-                {/* Dates & Location Metadata */}
                 <div
-                  className="mono"
+                  className="bkm-mono"
                   style={{
-                    fontSize: '0.75rem',
-                    color: 'var(--text-dim)',
-                    marginBottom: '0.65rem',
                     display: 'flex',
                     flexWrap: 'wrap',
-                    alignItems: 'center',
-                    gap: '0.6rem',
+                    gap: 12,
+                    marginBottom: 12,
+                    color: 'var(--muted)',
                   }}
                 >
                   {exp.period && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: 'var(--accent-cyan)' }}>
-                      <Calendar size={13} />
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                      <Calendar size={12} aria-hidden="true" />
                       {exp.period}
                     </span>
                   )}
-                  {exp.location && <span>• Location: {exp.location}</span>}
+                  {exp.location && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                      <MapPin size={12} aria-hidden="true" />
+                      {exp.location}
+                    </span>
+                  )}
                 </div>
 
-                {/* Experience Detail */}
                 <p
                   style={{
-                    fontSize: '0.875rem',
-                    color: 'var(--text-muted)',
-                    lineHeight: 1.5,
-                    marginBottom: '1rem',
+                    fontSize: 14.5,
+                    lineHeight: 1.52,
+                    fontWeight: 600,
+                    color: 'var(--muted)',
                   }}
                 >
                   {exp.description}
                 </p>
               </div>
 
-              {/* Technologies Badges */}
-              <div>
-                <div
-                  className="mono"
-                  style={{
-                    fontSize: '0.7rem',
-                    color: 'var(--text-dim)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    marginBottom: '0.35rem',
-                  }}
-                >
-                  Tools & Protocols Used
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                  {exp.technologies.map((tech) => (
-                    <span key={tech} className="tech-tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, paddingTop: 12, borderTop: '1.5px dashed rgba(12, 12, 16, 0.25)' }}>
+                {exp.technologies.map((tech) => (
+                  <span key={tech} className="bkm-tag-pill">
+                    {tech}
+                  </span>
+                ))}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
     </section>
   );
-};
+}

@@ -1,96 +1,97 @@
-import React from 'react';
-import { Cpu, ArrowUp } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import { FOOTER_BADGES, PROFILE } from '../data/portfolioData';
+import { HandSignature } from './bunkum/StudioIllustrations';
 
-export const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+interface FooterProps {
+  onBackToTop: () => void;
+}
 
+export function Footer({ onBackToTop }: FooterProps) {
   return (
     <footer
-      style={{
-        background: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-subtle)',
-        padding: '1.75rem 0 1.25rem',
-        marginTop: '2.5rem',
-      }}
+      className="bkm-foot bkm-cobalt-band"
+      style={{ paddingTop: 12, borderTop: 0 }}
+      aria-label="Footer"
     >
-      <div className="container">
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            paddingBottom: '1.25rem',
-            borderBottom: '1px solid var(--border-subtle)',
-          }}
-        >
-          {/* Left Brand */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <div
-              style={{
-                width: '28px',
-                height: '28px',
-                borderRadius: '6px',
-                background: 'var(--bg-dark)',
-                border: '1px solid var(--border-cyan)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--accent-cyan)',
-              }}
-            >
-              <Cpu size={16} />
+      <div className="bkm-foot-inner">
+        {/* Bunkum Badge Strip Marquee */}
+        <div className="bkm-strip" aria-label="Core engineering topics">
+          {[0, 1].map((dup) => (
+            <div key={dup} aria-hidden={dup === 1}>
+              {FOOTER_BADGES.map((badge, idx) => (
+                <span
+                  key={`${dup}-${badge.label}`}
+                  className="bkm-badge-token"
+                  style={
+                    {
+                      '--t': `${((idx % 5) - 2) * 3}deg`,
+                    } as CSSProperties
+                  }
+                >
+                  <span style={{ fontSize: 14, fontWeight: 800, lineHeight: 1.1 }}>
+                    {badge.label}
+                  </span>
+                  <span className="bkm-mono" style={{ fontSize: 9, opacity: 0.78, marginTop: 3 }}>
+                    {badge.sub}
+                  </span>
+                </span>
+              ))}
             </div>
-            <div>
-              <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.9rem' }}>
-                Ishaan Bhimajiyani
-              </div>
-            </div>
-          </div>
-
-          {/* Right Scroll Top */}
-          <button
-            onClick={scrollToTop}
-            className="btn btn-outline btn-sm mono"
-            aria-label="Scroll back to top"
-          >
-            Back to Top
-            <ArrowUp size={13} />
-          </button>
+          ))}
         </div>
 
-        {/* Bottom Sub-footer */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '0.75rem',
-            marginTop: '1rem',
-            fontSize: '0.78rem',
-            color: 'var(--text-dim)',
-          }}
-        >
-          <div>
-            © {new Date().getFullYear()} Ishaan Bhimajiyani. All rights reserved.
+        {/* Legal & Signature Row */}
+        <div className="bkm-legal">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <HandSignature
+              className="bkm-sig"
+              label="Ishaan Bhimajiyani signature"
+            />
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <a href="https://github.com/Ishaan2005" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+
+          <div
+            className="bkm-mono bkm-foot-links"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 10,
+              color: 'var(--butter)',
+            }}
+          >
+            <a
+              href={PROFILE.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bkm-foot-link"
+            >
               GitHub
             </a>
-            <a href="https://www.linkedin.com/in/ishaan-bhimajiyani/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+            <a
+              href={PROFILE.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bkm-foot-link"
+            >
               LinkedIn
             </a>
-            <a href="mailto:ishaanbhimaji@gmail.com" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="bkm-foot-link"
+            >
               Email
             </a>
+            <button
+              type="button"
+              className="bkm-top bkm-mono bkm-foot-link"
+              data-cursor="To top"
+              onClick={onBackToTop}
+            >
+              Back to top ↑
+            </button>
           </div>
         </div>
       </div>
     </footer>
   );
-};
+}

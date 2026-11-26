@@ -1,265 +1,262 @@
-import React, { useState, useEffect } from 'react';
-import { Mail, Send, CheckCircle2, Copy, ExternalLink } from 'lucide-react';
+import { useState, type CSSProperties, type FormEvent } from 'react';
+import { CheckCircle2, Copy, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
+import { PROFILE, SCRAP_WALL_ITEMS } from '../data/portfolioData';
+import { WaveformDoodle } from './bunkum/StudioIllustrations';
 
-export const Contact: React.FC = () => {
-  const fullTitle = 'GET IN TOUCH';
-  const [typedTitle, setTypedTitle] = useState('');
-  const [isTypingDone, setIsTypingDone] = useState(false);
+interface ContactProps {
+  onSay: (text: string) => void;
+  onViewArchive: () => void;
+}
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (typedTitle.length < fullTitle.length) {
-      timer = setTimeout(() => {
-        setTypedTitle(fullTitle.slice(0, typedTitle.length + 1));
-      }, 45);
-    } else {
-      setIsTypingDone(true);
-    }
-    return () => clearTimeout(timer);
-  }, [typedTitle]);
-
-  const [copiedEmail, setCopiedEmail] = useState(false);
+export function Contact({ onSay, onViewArchive }: ContactProps) {
+  const [composerOpen, setComposerOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ email: '', message: '' });
 
-  const emailAddress = 'ishaanbhimaji@gmail.com';
-  const githubUrl = 'https://github.com/Ishaan2005';
-  const linkedinUrl = 'https://www.linkedin.com/in/ishaan-bhimajiyani/';
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(emailAddress);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+  const copyEmail = () => {
+    const done = () => onSay('Copied email: ' + PROFILE.email);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(PROFILE.email).then(done, () => onSay(PROFILE.email));
+    } else {
+      onSay(PROFILE.email);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.message) return;
-
-    // Trigger direct email dispatch via mailto link
-    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(
+    const mailtoUrl = `mailto:${PROFILE.email}?subject=${encodeURIComponent(
       `Portfolio Message from ${formData.email}`
     )}&body=${encodeURIComponent(
       `Sender Email: ${formData.email}\n\nMessage:\n${formData.message}`
     )}`;
-
     window.location.href = mailtoUrl;
     setFormSubmitted(true);
+    onSay('Opening your mail client...');
   };
 
+  const fanItems = [SCRAP_WALL_ITEMS[0], SCRAP_WALL_ITEMS[1], SCRAP_WALL_ITEMS[3]];
+
   return (
-    <section id="contact" className="section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <h2 className="section-title" style={{ minHeight: '1.2em' }}>
-            {typedTitle}
-            {!isTypingDone && <span className="typing-cursor">|</span>}
-          </h2>
-          <p className="section-subtitle">
-            Open for discussions regarding VLSI design roles, RTL engineering, data science, or technical collaborations.
-          </p>
+    <section
+      id="contact"
+      className="bkm-foot bkm-cobalt-band"
+      style={{ paddingBottom: 0 }}
+      aria-labelledby="bkm-contact-heading"
+    >
+      <div className="bkm-foot-inner">
+        <h2 id="bkm-contact-heading" className="bkm-big">
+          Got an interesting
+          <br />
+          hardware problem?
+        </h2>
+
+        {/* Bunkum Fanned 3-card interactive deck */}
+        <button
+          type="button"
+          className="bkm-fan"
+          data-cursor="Projects"
+          aria-label="Scroll to project archive"
+          onClick={onViewArchive}
+        >
+          <i
+            style={
+              {
+                backgroundImage: `url(${fanItems[0].image})`,
+                '--r': '-7deg',
+              } as CSSProperties
+            }
+          />
+          <i
+            style={
+              {
+                backgroundImage: `url(${fanItems[1].image})`,
+                '--r': '6deg',
+              } as CSSProperties
+            }
+          />
+          <i
+            style={
+              {
+                backgroundImage: `url(${fanItems[2].image})`,
+                '--r': '-1deg',
+              } as CSSProperties
+            }
+          />
+          <WaveformDoodle className="bkm-fan-doodle" />
+        </button>
+
+        <p className="bkm-sub">
+          Always up for conversations around RTL design, FPGA prototyping, ASIC flows, computer architecture, AI hardware, or engineering opportunities.
+        </p>
+
+        {/* Bunkum Magnetic Pill CTAs */}
+        <div className="bkm-ctas">
+          <button
+            type="button"
+            className="bkm-pill bkm-cta"
+            data-magnet=""
+            data-cursor="Write note"
+            onClick={() => setComposerOpen((v) => !v)}
+          >
+            <span>
+              <Mail size={16} aria-hidden="true" />
+              {composerOpen ? 'Hide Message Form' : 'Send a Message'}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="bkm-pill bkm-cta bkm-ghost"
+            data-magnet=""
+            data-cursor="Copy email"
+            onClick={copyEmail}
+          >
+            <span>
+              <Copy size={15} aria-hidden="true" />
+              {PROFILE.email}
+            </span>
+          </button>
+
+          <a
+            href={PROFILE.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bkm-pill bkm-cta bkm-ghost"
+            data-magnet=""
+            data-cursor="LinkedIn"
+          >
+            <span>
+              <LinkedinIcon size={16} />
+              LinkedIn
+            </span>
+          </a>
+
+          <a
+            href={PROFILE.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bkm-pill bkm-cta bkm-ghost"
+            data-magnet=""
+            data-cursor="GitHub"
+          >
+            <span>
+              <GithubIcon size={16} />
+              GitHub
+            </span>
+          </a>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '1.25rem' }} className="contact-grid">
-          
-          {/* Left Column: Direct Contact Info & Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-            
-            {/* Email Card */}
-            <div className="card-hardware" style={{ padding: '0.85rem 1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-cyan)' }}>
-                  <Mail size={18} />
-                  <span className="mono" style={{ fontSize: '0.75rem', fontWeight: 600 }}>DIRECT EMAIL</span>
-                </div>
-                <button
-                  onClick={handleCopyEmail}
-                  className="btn btn-outline btn-sm mono"
-                  style={{ padding: '0.2rem 0.45rem', fontSize: '0.7rem' }}
-                >
-                  {copiedEmail ? <CheckCircle2 size={12} /> : <Copy size={12} />}
-                  {copiedEmail ? 'Copied' : 'Copy'}
-                </button>
-              </div>
-              <a
-                href={`mailto:${emailAddress}`}
-                className="mono"
-                style={{ fontSize: '0.925rem', color: 'var(--text-main)', wordBreak: 'break-all', textDecoration: 'none', fontWeight: 600 }}
-              >
-                {emailAddress}
-              </a>
-            </div>
-
-            {/* GitHub Card */}
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-hardware"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.85rem 1rem',
-                textDecoration: 'none',
-              }}
-            >
-              <GithubIcon size={18} style={{ color: 'var(--accent-cyan)' }} />
-              <span className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                Github
-              </span>
-              <ExternalLink size={14} style={{ color: 'var(--text-dim)', marginLeft: 'auto' }} />
-            </a>
-
-            {/* LinkedIn Card */}
-            <a
-              href={linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-hardware"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.85rem 1rem',
-                textDecoration: 'none',
-              }}
-            >
-              <LinkedinIcon size={18} style={{ color: 'var(--accent-cyan)' }} />
-              <span className="mono" style={{ fontSize: '0.925rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                Linkedin
-              </span>
-              <ExternalLink size={14} style={{ color: 'var(--text-dim)', marginLeft: 'auto' }} />
-            </a>
-
-          </div>
-
-          {/* Right Column: Transmit Message Form */}
-          <div className="card-hardware" style={{ padding: '1.25rem 1.5rem' }}>
-            <h3 style={{ fontSize: '1.15rem', color: 'var(--text-main)', marginBottom: '0.25rem', textAlign: 'center' }}>
-              Transmit Message
-            </h3>
-            <p style={{ fontSize: '0.825rem', color: 'var(--text-muted)', marginBottom: '1rem', textAlign: 'center' }}>
-              Enter your email and message below — Ishaan will receive your email directly.
-            </p>
-
+        {/* Optional expandable quick message form (preserves existing portfolio mailto form) */}
+        {composerOpen && (
+          <div className="bkm-note-drawer">
             {formSubmitted ? (
-              <div
-                style={{
-                  background: 'var(--bg-surface)',
-                  border: '1px solid var(--border-cyan)',
-                  borderRadius: '8px',
-                  padding: '1.5rem',
-                  textAlign: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '0.65rem',
-                }}
-              >
-                <CheckCircle2 size={36} style={{ color: 'var(--accent-cyan)' }} />
-                <h4 style={{ fontSize: '1.05rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                  Message Transmitted!
-                </h4>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-body)', lineHeight: 1.5 }}>
-                  Your email client has opened with your message pre-loaded to be sent directly to <strong>{emailAddress}</strong>.
+              <div style={{ textAlign: 'center', padding: '12px 0' }}>
+                <CheckCircle2
+                  size={34}
+                  style={{ color: 'var(--blue)', margin: '0 auto 8px' }}
+                  aria-hidden="true"
+                />
+                <h3 style={{ fontSize: 19, fontWeight: 800, marginBottom: 6 }}>
+                  Message Ready in Mail Client
+                </h3>
+                <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 14 }}>
+                  Your message has been prepared for <strong>{PROFILE.email}</strong>.
                 </p>
                 <button
+                  type="button"
+                  className="bkm-btn"
                   onClick={() => {
                     setFormSubmitted(false);
                     setFormData({ email: '', message: '' });
                   }}
-                  className="btn btn-primary btn-sm mono"
-                  style={{ marginTop: '0.35rem' }}
                 >
-                  Send Another Message
+                  Send Another Note
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                {/* Field 1: Recruiter Email */}
+              <form
+                onSubmit={handleSubmit}
+                style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
+              >
+                <div className="bkm-mono" style={{ color: 'var(--blue)', fontWeight: 700 }}>
+                  Direct Note → {PROFILE.email}
+                </div>
                 <div>
-                  <label className="mono" style={{ display: 'block', fontSize: '0.725rem', color: 'var(--accent-cyan)', marginBottom: '0.25rem', fontWeight: 600 }}>
-                    YOUR EMAIL ADDRESS
+                  <label
+                    htmlFor="contact-email"
+                    className="bkm-mono"
+                    style={{ display: 'block', marginBottom: 4 }}
+                  >
+                    Your Email
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
+                    inputMode="email"
+                    autoComplete="email"
                     required
-                    placeholder="recruiter@company.com"
+                    placeholder="you@company.com"
                     value={formData.email}
-                    onChange={(e) => {
-                      setFormData({ ...formData, email: e.target.value });
-                    }}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     style={{
                       width: '100%',
-                      padding: '0.65rem 0.8rem',
-                      background: 'var(--bg-surface)',
-                      border: '1.5px solid var(--border-subtle)',
-                      borderRadius: '6px',
-                      color: 'var(--text-main)',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.875rem',
-                      outline: 'none',
-                      transition: 'border-color 0.2s ease',
+                      padding: '11px 12px',
+                      borderRadius: 10,
+                      border: '2px solid var(--ink)',
+                      background: 'var(--cream)',
+                      color: 'var(--ink)',
+                      font: 'inherit',
+                      fontSize: '16px',
+                      lineHeight: 1.4,
                     }}
                   />
                 </div>
-
-                {/* Field 2: Transmitting Message */}
                 <div>
-                  <label className="mono" style={{ display: 'block', fontSize: '0.725rem', color: 'var(--accent-cyan)', marginBottom: '0.25rem', fontWeight: 600 }}>
-                    TRANSMITTING MESSAGE
+                  <label
+                    htmlFor="contact-message"
+                    className="bkm-mono"
+                    style={{ display: 'block', marginBottom: 4 }}
+                  >
+                    Message
                   </label>
                   <textarea
+                    id="contact-message"
                     required
-                    rows={4}
-                    placeholder="Write your message, project opportunities, or inquiry for Ishaan..."
+                    rows={3}
+                    placeholder="Share a role, RTL/architecture problem, or collaboration note..."
                     value={formData.message}
-                    onChange={(e) => {
-                      setFormData({ ...formData, message: e.target.value });
-                    }}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     style={{
                       width: '100%',
-                      padding: '0.65rem 0.8rem',
-                      background: 'var(--bg-surface)',
-                      border: '1.5px solid var(--border-subtle)',
-                      borderRadius: '6px',
-                      color: 'var(--text-main)',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.875rem',
-                      outline: 'none',
+                      padding: '11px 12px',
+                      borderRadius: 10,
+                      border: '2px solid var(--ink)',
+                      background: 'var(--cream)',
+                      color: 'var(--ink)',
+                      font: 'inherit',
+                      fontSize: '16px',
+                      lineHeight: 1.4,
                       resize: 'vertical',
-                      transition: 'border-color 0.2s ease',
                     }}
                   />
                 </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  style={{
-                    marginTop: '0.25rem',
-                    padding: '0.65rem',
-                    fontSize: '0.875rem',
-                  }}
-                >
-                  Transmit Email to Ishaan
-                  <Send size={15} />
-                </button>
+                <div>
+                  <button type="submit" className="bkm-btn bkm-btn-cobalt">
+                    <span>Transmit Email</span>
+                    <Send size={14} aria-hidden="true" />
+                  </button>
+                </div>
               </form>
             )}
           </div>
-
-        </div>
+        )}
       </div>
-
-      <style>{`
-        @media (max-width: 868px) {
-          .contact-grid { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-        }
-      `}</style>
     </section>
   );
-};
+}

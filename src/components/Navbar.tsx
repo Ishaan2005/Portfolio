@@ -1,181 +1,157 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { Menu, X } from 'lucide-react';
+import type { BunkumTheme } from './bunkum/bunkumEngine';
 
-export const Navbar: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+interface NavbarProps {
+  theme: BunkumTheme;
+  onRotateTheme: () => void;
+  onNavigate: (sectionId: string) => void;
+}
+
+const roll = (text: string) => (
+  <span
+    className="bkm-roll"
+    aria-hidden="true"
+    style={{ '--n': text.length } as CSSProperties}
+  >
+    {text.split('').map((ch, i) => (
+      <span key={i} style={{ '--i': i } as CSSProperties}>
+        {ch === ' ' ? '\u00A0' : ch}
+      </span>
+    ))}
+  </span>
+);
+
+const NAV_ITEMS = [
+  { id: 'about', label: 'About Me' },
+  { id: 'archive', label: 'Archive' },
+  { id: 'experience', label: 'Journey' },
+  { id: 'contact', label: 'Contact' },
+] as const;
+
+export function Navbar({
+  theme,
+  onRotateTheme,
+  onNavigate,
+}: NavbarProps) {
   const [activeSection, setActiveSection] = useState('hero');
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-
-      const sections = ['hero', 'projects', 'experience', 'about', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
+    const ids = ['hero', ...NAV_ITEMS.map((item) => item.id)];
+    const onScroll = () => {
+      const scrollY = window.scrollY + 140;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (scrollY >= el.offsetTop && scrollY < el.offsetTop + el.offsetHeight) {
+          setActiveSection(id);
+          break;
         }
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  const handleNav = (id: string) => {
+    setMobileOpen(false);
+    onNavigate(id);
+  };
 
   return (
-    <header
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        height: 'var(--header-height)',
-        transition: 'all 0.25s ease',
-        backgroundColor: scrolled ? 'var(--header-bg)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
-      }}
-    >
-      <div
-        className="container"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '0.625rem',
-          height: '100%',
-        }}
-      >
-        {/* Desktop Nav Aligned to Left */}
-        <nav
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-          }}
-          className="desktop-nav"
+    <div className="bkm-chrome">
+      <nav className="bkm-nav" aria-label="Main navigation">
+        <button
+          type="button"
+          className="bkm-pill bkm-brand"
+          data-magnet=""
+          data-cursor="Top"
+          onClick={() => handleNav('hero')}
         >
-          {navLinks.map((link) => {
-            const sectionId = link.href.substring(1);
-            const isActive = activeSection === sectionId;
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                className="nav-item-link"
-                style={{
-                  color: isActive ? 'var(--accent-cyan)' : 'var(--text-main)',
-                  textDecoration: 'none',
-                  fontSize: '0.825rem',
-                  fontWeight: 600,
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '6px',
-                  transition: 'all 0.2s ease',
-                  backgroundColor: isActive ? 'var(--accent-cyan-dim)' : 'transparent',
-                  border: isActive ? '1px solid var(--border-cyan)' : '1px solid transparent',
-                  boxShadow: isActive
-                    ? '0 2px 8px rgba(6, 182, 212, 0.2)'
-                    : 'none',
-                }}
-              >
-                {link.name}
-              </a>
-            );
-          })}
-        </nav>
+          <span>ISHAAN</span>
+          <small>ECE · 2026</small>
+          <span className="bkm-sr">, back to top</span>
+        </button>
 
-        {/* Mobile Actions: Hamburger */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }} className="mobile-actions">
+        {NAV_ITEMS.map((item) => (
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
-            style={{
-              background: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              color: 'var(--text-main)',
-              padding: '0.5rem',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              display: 'flex',
-            }}
+            key={item.id}
+            type="button"
+            className="bkm-pill bkm-link"
+            data-magnet=""
+            data-active={activeSection === item.id}
+            onClick={() => handleNav(item.id)}
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {roll(item.label)}
+            <span className="bkm-sr">{item.label}</span>
           </button>
-        </div>
-      </div>
+        ))}
 
-      {/* Mobile Nav Overlay */}
-      {mobileMenuOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'var(--header-height)',
-            left: 0,
-            right: 0,
-            background: 'var(--bg-card)',
-            borderBottom: '1px solid var(--border-active)',
-            padding: '1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.6)',
-          }}
+        <button
+          type="button"
+          className="bkm-pill bkm-badge"
+          data-cursor={`Palette: ${theme.name}`}
+          aria-label={`Switch studio colour palette (currently ${theme.name})`}
+          onClick={onRotateTheme}
         >
-          {navLinks.map((link) => {
-            const sectionId = link.href.substring(1);
-            const isActive = activeSection === sectionId;
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  color: isActive ? 'var(--accent-cyan)' : 'var(--text-main)',
-                  background: isActive ? 'var(--accent-cyan-dim)' : 'var(--bg-surface)',
-                  border: isActive ? '1px solid var(--border-cyan)' : '1px solid var(--border-subtle)',
-                  borderRadius: '6px',
-                  textDecoration: 'none',
-                  fontSize: '0.9375rem',
-                  fontWeight: 600,
-                  padding: '0.6rem 1rem',
-                  display: 'block',
-                }}
-              >
-                {link.name}
-              </a>
-            );
-          })}
+          <svg viewBox="0 0 30 30" aria-hidden="true">
+            {[0, 1, 2, 3, 4, 5].map((k) => (
+              <ellipse
+                key={k}
+                cx="15"
+                cy="8.6"
+                rx="3.6"
+                ry="6"
+                fill="currentColor"
+                transform={`rotate(${k * 60} 15 15)`}
+                opacity={k % 2 ? 0.58 : 1}
+              />
+            ))}
+            <circle
+              cx="15"
+              cy="15"
+              r="3.4"
+              fill="var(--butter)"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          className="bkm-pill bkm-mobile-toggle"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+      </nav>
+
+      {mobileOpen && (
+        <div className="bkm-mobile-drawer" role="dialog" aria-label="Mobile navigation">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className="bkm-pill"
+              style={{
+                width: '100%',
+                justifyContent: 'space-between',
+                background: activeSection === item.id ? 'var(--blue)' : 'var(--cream)',
+                color: activeSection === item.id ? 'var(--butter)' : 'var(--ink)',
+              }}
+              onClick={() => handleNav(item.id)}
+            >
+              <span>{item.label}</span>
+              <span className="bkm-mono">→</span>
+            </button>
+          ))}
         </div>
       )}
-
-      <style>{`
-        .nav-item-link:hover {
-          color: var(--accent-cyan) !important;
-          background-color: var(--accent-cyan-dim) !important;
-          border-color: var(--border-cyan) !important;
-          transform: translateY(-1px);
-        }
-        @media (max-width: 868px) {
-          .desktop-nav { display: none !important; }
-          .mobile-actions { display: flex !important; }
-        }
-      `}</style>
-    </header>
+    </div>
   );
-};
+}

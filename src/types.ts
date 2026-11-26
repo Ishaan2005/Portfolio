@@ -2,6 +2,10 @@ export interface Project {
   id: string;
   title: string;
   subtitle?: string;
+  year?: string;
+  category?: string;
+  scrapCode?: string;
+  accent?: 'cobalt' | 'tomato' | 'butter' | 'pistachio';
   description: string;
   technologies: string[];
   githubUrl: string;
@@ -18,9 +22,13 @@ export interface Project {
 }
 
 export interface SkillCategory {
+  id: string;
   title: string;
+  code: string;
   iconName: string;
+  summary: string;
   skills: string[];
+  featured?: boolean;
 }
 
 export interface JourneyStep {
@@ -39,4 +47,12 @@ export interface WorkExperienceItem {
   description: string;
   technologies: string[];
   imageUrl?: string;
+}
+
+export interface EducationItem {
+  degree: string;
+  minor: string;
+  institution: string;
+  graduation: string;
+  focus: string[];
 }

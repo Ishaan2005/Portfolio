@@ -1,182 +1,255 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { X } from 'lucide-react';
-import { GithubIcon } from './Icons';
+import { GithubIcon, LinkedinIcon } from './Icons';
+import { EDUCATION, PROFILE, PROJECTS, WORK_EXPERIENCE } from '../data/portfolioData';
 
 interface ResumeModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
+export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (ev: KeyboardEvent) => {
+      if (ev.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '840px' }}>
-        
+    <div
+      className="bkm-lb"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="resume-modal-title"
+      onClick={onClose}
+    >
+      <div className="bkm-modal-sheet" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 14,
+            marginBottom: 18,
+            paddingBottom: 14,
+            borderBottom: '2px dashed rgba(12, 12, 16, 0.25)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <img
-              src={`${import.meta.env.BASE_URL}images/Ishaan.jpeg`}
-              alt="Ishaan Bhimajiyani"
+              src={PROFILE.portraitAbout}
+              alt={PROFILE.name}
               style={{
-                width: '68px',
-                height: '68px',
+                width: 64,
+                height: 64,
                 borderRadius: '50%',
                 objectFit: 'cover',
-                border: '2px solid var(--accent-cyan)',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
+                objectPosition: 'center 20%',
+                border: '2.5px solid var(--ink)',
                 flexShrink: 0,
               }}
             />
             <div>
-              <h2 style={{ fontSize: '1.4rem', color: 'var(--text-main)', lineHeight: 1.2, marginBottom: '0.2rem' }}>
-                Ishaan Bhimajiyani — Resume Overview
+              <h2 id="resume-modal-title" style={{ fontSize: 22, fontWeight: 800 }}>
+                {PROFILE.name} — Resume Overview
               </h2>
-              <div className="mono" style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)' }}>
-                ECE ENGINEER · VLSI, RTL & COMPUTER ARCHITECTURE
+              <div className="bkm-mono" style={{ color: 'var(--blue)', fontWeight: 700, marginTop: 2 }}>
+                {PROFILE.tagline}
               </div>
-              <div className="mono" style={{ fontSize: '0.725rem', color: 'var(--text-dim)', marginTop: '0.15rem' }}>
-                ishaanbhimaji@gmail.com · github.com/Ishaan2005
+              <div className="bkm-mono" style={{ opacity: 0.72, marginTop: 2 }}>
+                {PROFILE.email} · github.com/Ishaan2005
               </div>
             </div>
           </div>
+
           <button
+            type="button"
+            className="bkm-lbbtn"
+            style={{ background: 'var(--tomato)', color: 'var(--cream)' }}
+            aria-label="Close resume overview"
             onClick={onClose}
-            style={{
-              background: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              color: 'var(--text-muted)',
-              padding: '0.4rem 0.6rem',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
           >
-            <X size={18} />
+            <X size={16} />
           </button>
         </div>
 
-        {/* Content Sheet */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', fontSize: '0.9375rem', color: 'var(--text-body)' }}>
-          
-          {/* Summary */}
-          <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', padding: '1.25rem', borderRadius: '8px' }}>
-            <h3 className="mono" style={{ fontSize: '0.875rem', color: 'var(--accent-cyan)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+        {/* Body */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div
+            style={{
+              background: 'var(--cream)',
+              border: '2px solid var(--ink)',
+              borderRadius: 14,
+              padding: 16,
+            }}
+          >
+            <h3 className="bkm-mono" style={{ color: 'var(--blue)', marginBottom: 6 }}>
               Professional Summary
             </h3>
-            <p style={{ lineHeight: 1.6 }}>
-              Electronics and Communication Engineering student targeting VLSI, RTL / Digital Design, Computer Architecture, and AI Hardware. Focused on Verilog/SystemVerilog logic synthesis, RISC-V architectural exploration with gem5, and open-source ASIC physical design flows (OpenLane, Sky130 PDK).
+            <p style={{ fontSize: 14.5, lineHeight: 1.55, fontWeight: 600 }}>
+              Electronics and Communication Engineering student at {EDUCATION.institution} ({EDUCATION.graduation}, {EDUCATION.minor}) targeting RTL / Digital Design, FPGA, ASIC workflows, Computer Architecture, and AI Hardware. Focused on Verilog/SystemVerilog logic synthesis, RISC-V architectural exploration with gem5, and open-source ASIC physical design flows (OpenLane, OpenROAD, Sky130 PDK).
             </p>
           </div>
 
-          {/* Education */}
-          <div>
-            <h3 className="mono" style={{ fontSize: '0.875rem', color: 'var(--accent-cyan)', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
+          <div
+            style={{
+              background: 'var(--pistachio)',
+              border: '2px solid var(--ink)',
+              borderRadius: 14,
+              padding: 16,
+            }}
+          >
+            <h3 className="bkm-mono" style={{ marginBottom: 6 }}>
               Education
             </h3>
-            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', padding: '1.25rem', borderRadius: '8px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                <span style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '1rem' }}>
-                  Bachelor of Technology in Electronics & Communication Engineering
-                </span>
-              </div>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                Specializing in Digital System Design, VLSI Design, Computer Architecture, and Microprocessors.
-              </p>
+            <div style={{ fontWeight: 800, fontSize: 16 }}>
+              {EDUCATION.degree} — {EDUCATION.institution}
             </div>
+            <div className="bkm-mono" style={{ marginTop: 3 }}>
+              {EDUCATION.minor} · {EDUCATION.graduation}
+            </div>
+            <p style={{ fontSize: 13.5, fontWeight: 600, marginTop: 6 }}>
+              Specializing in Digital System Design, VLSI Design, Computer Architecture, and Microprocessors.
+            </p>
           </div>
 
-          {/* Internship & Work Experience */}
           <div>
-            <h3 className="mono" style={{ fontSize: '0.875rem', color: 'var(--accent-cyan)', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
-              Internship & Professional Experience
+            <h3 className="bkm-mono" style={{ color: 'var(--blue)', marginBottom: 8 }}>
+              Internships &amp; Experience
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', padding: '1rem 1.25rem', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                  <strong style={{ color: 'var(--text-main)' }}>Summer Intern — ONGC, Ahmedabad</strong>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {WORK_EXPERIENCE.map((exp) => (
+                <div
+                  key={exp.id}
+                  style={{
+                    background: 'var(--cream)',
+                    border: '2px solid var(--ink)',
+                    borderRadius: 12,
+                    padding: 14,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      gap: 6,
+                      marginBottom: 4,
+                    }}
+                  >
+                    <strong style={{ fontSize: 15 }}>
+                      {exp.role} — {exp.company}
+                    </strong>
+                    <span className="bkm-mono">{exp.period}</span>
+                  </div>
+                  <p style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--muted)', fontWeight: 600 }}>
+                    {exp.description}
+                  </p>
                 </div>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  Explored industrial automation, SCADA systems, RTUs, MODBUS/PROFIBUS/Fieldbus protocols, Cisco 1941 VLAN routing, and Rocky Linux PXE boot/YUM repo setups.
-                </p>
-              </div>
-
-              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', padding: '1rem 1.25rem', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                  <strong style={{ color: 'var(--text-main)' }}>Network Monitoring Intern — Ishan Technologies</strong>
-                </div>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  ISP network monitoring, Python automation, Zabbix system maintenance, data pre-processing, and N-ticketing module testing.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Technical Skills Overview */}
           <div>
-            <h3 className="mono" style={{ fontSize: '0.875rem', color: 'var(--accent-cyan)', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
+            <h3 className="bkm-mono" style={{ color: 'var(--blue)', marginBottom: 8 }}>
               Core Technical Competencies
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              <div style={{ background: 'var(--bg-surface)', padding: '1rem', border: '1px solid var(--border-subtle)', borderRadius: '6px' }}>
-                <strong style={{ color: 'var(--text-main)', display: 'block', marginBottom: '0.35rem' }}>RTL & VLSI</strong>
-                Verilog, RTL Design, FSMs, Timing, OpenLane, OpenROAD, Sky130 PDK
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                gap: 10,
+              }}
+            >
+              <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: 12 }}>
+                <strong style={{ display: 'block', marginBottom: 4 }}>RTL &amp; VLSI</strong>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  Verilog, RTL Design, FSMs, Timing, OpenLane, OpenROAD, Sky130 PDK
+                </span>
               </div>
-              <div style={{ background: 'var(--bg-surface)', padding: '1rem', border: '1px solid var(--border-subtle)', borderRadius: '6px' }}>
-                <strong style={{ color: 'var(--text-main)', display: 'block', marginBottom: '0.35rem' }}>Computer Architecture</strong>
-                RISC-V (RV64), gem5 Simulator, Cache Architecture, IPC Analysis, CPU Pipelines
+              <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: 12 }}>
+                <strong style={{ display: 'block', marginBottom: 4 }}>Computer Architecture</strong>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  RISC-V (RV64), gem5 Simulator, Cache Architecture, IPC Analysis, CPU Pipelines
+                </span>
               </div>
-              <div style={{ background: 'var(--bg-surface)', padding: '1rem', border: '1px solid var(--border-subtle)', borderRadius: '6px' }}>
-                <strong style={{ color: 'var(--text-main)', display: 'block', marginBottom: '0.35rem' }}>Protocols & Datapaths</strong>
-                AMBA APB3, UART (RTL→GDS), MAC Units, Register Files, Bus Interfaces
+              <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: 12 }}>
+                <strong style={{ display: 'block', marginBottom: 4 }}>Protocols &amp; Datapaths</strong>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  AMBA APB3, STP FSM, UART (RTL→GDS), FIFO Buffers, MAC Units, Register Files
+                </span>
               </div>
-              <div style={{ background: 'var(--bg-surface)', padding: '1rem', border: '1px solid var(--border-subtle)', borderRadius: '6px' }}>
-                <strong style={{ color: 'var(--text-main)', display: 'block', marginBottom: '0.35rem' }}>Programming & EDA</strong>
-                Python, Linux, Git, Icarus Verilog, GTKWave, Yosys
+              <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: 12 }}>
+                <strong style={{ display: 'block', marginBottom: 4 }}>Programming &amp; EDA</strong>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  Python, Linux, Git, Icarus Verilog, GTKWave, Yosys, ModelSim
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Key Projects Summary */}
           <div>
-            <h3 className="mono" style={{ fontSize: '0.875rem', color: 'var(--accent-cyan)', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
-              Key Featured Projects
+            <h3 className="bkm-mono" style={{ color: 'var(--blue)', marginBottom: 8 }}>
+              Featured Engineering Projects
             </h3>
-            <ul style={{ paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'var(--text-body)' }}>
-              <li><strong>SiliconForge RTL Project Viewer:</strong> Interactive EDA workstation with real-time Icarus Verilog simulation, VCD waveforms, and Yosys synthesis.</li>
-              <li><strong>GDS Viewer:</strong> Interactive GDSII silicon layout visualizer inspired by Tiny Tapeout for Sky130 ASIC floorplan inspection.</li>
-              <li><strong>AMBA APB5 Master-Slave Module:</strong> Synthesizable Verilog FSM protocol interface with PREADY wait-state support.</li>
-              <li><strong>STP Logic using FSM:</strong> IEEE 802.1D Spanning Tree Protocol loop-prevention state machine logic in synthesizable Verilog HDL.</li>
-              <li><strong>Multiply-Accumulate (MAC) Unit:</strong> High-performance arithmetic computational block hardened from RTL to GDSII using OpenLane & Sky130 PDK.</li>
+            <ul style={{ paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13.5, fontWeight: 600 }}>
+              {PROJECTS.map((proj) => (
+                <li key={proj.id}>
+                  <strong>{proj.title}:</strong> {proj.description}
+                </li>
+              ))}
             </ul>
           </div>
-
         </div>
 
-        {/* Footer Actions */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
-          <button
-            onClick={onClose}
-            className="btn btn-outline btn-sm mono"
-          >
-            Close Viewer
-          </button>
+        {/* Footer */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-end',
+            gap: 10,
+            marginTop: 18,
+            paddingTop: 14,
+            borderTop: '2px dashed rgba(12, 12, 16, 0.25)',
+          }}
+        >
           <a
-            href="https://github.com/Ishaan2005"
+            href={PROFILE.linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary btn-sm mono"
+            className="bkm-btn bkm-btn-secondary"
+            style={{ height: 40, fontSize: 13 }}
           >
-            <GithubIcon size={14} />
-            GitHub Profile
+            <LinkedinIcon size={15} />
+            <span>LinkedIn</span>
           </a>
+          <a
+            href={PROFILE.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bkm-btn bkm-btn-cobalt"
+            style={{ height: 40, fontSize: 13 }}
+          >
+            <GithubIcon size={15} />
+            <span>GitHub Profile</span>
+          </a>
+          <button
+            type="button"
+            className="bkm-btn"
+            style={{ height: 40, fontSize: 13 }}
+            onClick={onClose}
+          >
+            Close
+          </button>
         </div>
-
       </div>
     </div>
   );
-};
+}
