@@ -1,5 +1,5 @@
-import { useState, type CSSProperties, type FormEvent } from 'react';
-import { CheckCircle2, Copy, Mail, Send } from 'lucide-react';
+import { useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { AlertCircle, CheckCircle2, Copy, Loader2, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PROFILE, SCRAP_WALL_ITEMS } from '../data/portfolioData';
 import { WaveformDoodle } from './bunkum/StudioIllustrations';
@@ -9,10 +9,26 @@ interface ContactProps {
   onViewArchive: () => void;
 }
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xjgbrpkb';
+
+interface FormspreeErrorItem {
+  field?: string;
+  message?: string;
+}
+
+interface FormspreeResponse {
+  ok?: boolean;
+  error?: string;
+  errors?: FormspreeErrorItem[];
+}
+
 export function Contact({ onSay, onViewArchive }: ContactProps) {
   const [composerOpen, setComposerOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({ email: '', message: '' });
+  const submitLockRef = useRef(false);
 
   const copyEmail = () => {
     const done = () => onSay('Copied email: ' + PROFILE.email);
@@ -23,17 +39,61 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.email || !formData.message) return;
-    const mailtoUrl = `mailto:${PROFILE.email}?subject=${encodeURIComponent(
-      `Portfolio Message from ${formData.email}`
-    )}&body=${encodeURIComponent(
-      `Sender Email: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.location.href = mailtoUrl;
-    setFormSubmitted(true);
-    onSay('Opening your mail client...');
+    if (submitLockRef.current || isSubmitting) return;
+
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+    if (!trimmedEmail || !trimmedMessage) {
+      setErrorMessage('Please enter both your email address and a message.');
+      return;
+    }
+
+    submitLockRef.current = true;
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const payload = new FormData(e.currentTarget);
+      payload.set('email', trimmedEmail);
+      payload.set('message', trimmedMessage);
+
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: payload,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      const data = (await response.json().catch(() => ({}))) as FormspreeResponse;
+
+      if (!response.ok || data.ok === false) {
+        const detailedError =
+          data.errors
+            ?.map((item) => item.message)
+            .filter(Boolean)
+            .join(', ') ||
+          data.error ||
+          'Unable to send your message right now. Please try again.';
+        throw new Error(detailedError);
+      }
+
+      setFormData({ email: '', message: '' });
+      setFormSubmitted(true);
+      onSay(`Message sent to ${PROFILE.email}`);
+    } catch (err) {
+      const message =
+        err instanceof Error && err.message
+          ? err.message
+          : 'Network error while sending your message. Please try again.';
+      setErrorMessage(message);
+      onSay('Could not send message');
+    } finally {
+      submitLockRef.current = false;
+      setIsSubmitting(false);
+    }
   };
 
   const fanItems = [SCRAP_WALL_ITEMS[0], SCRAP_WALL_ITEMS[1], SCRAP_WALL_ITEMS[3]];
@@ -148,7 +208,7 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
           </a>
         </div>
 
-        {/* Optional expandable quick message form (preserves existing portfolio mailto form) */}
+        {/* Optional expandable quick message form (Formspree integration) */}
         {composerOpen && (
           <div className="bkm-note-drawer">
             {formSubmitted ? (
@@ -159,16 +219,17 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
                   aria-hidden="true"
                 />
                 <h3 style={{ fontSize: 19, fontWeight: 800, marginBottom: 6 }}>
-                  Message Ready in Mail Client
+                  Message Transmitted
                 </h3>
                 <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 14 }}>
-                  Your message has been prepared for <strong>{PROFILE.email}</strong>.
+                  Your message has been delivered to <strong>{PROFILE.email}</strong>.
                 </p>
                 <button
                   type="button"
                   className="bkm-btn"
                   onClick={() => {
                     setFormSubmitted(false);
+                    setErrorMessage('');
                     setFormData({ email: '', message: '' });
                   }}
                 >
@@ -177,6 +238,8 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
               </div>
             ) : (
               <form
+                action={FORMSPREE_ENDPOINT}
+                method="POST"
                 onSubmit={handleSubmit}
                 style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
               >
@@ -193,15 +256,18 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
                   </label>
                   <input
                     id="contact-email"
+                    name="email"
                     type="email"
                     inputMode="email"
                     autoComplete="email"
                     required
+                    readOnly={isSubmitting}
                     placeholder="you@company.com"
                     value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
+                    onChange={(e) => {
+                      if (errorMessage) setErrorMessage('');
+                      setFormData({ ...formData, email: e.target.value });
+                    }}
                     style={{
                       width: '100%',
                       padding: '11px 12px',
@@ -225,13 +291,16 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
                   </label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     required
+                    readOnly={isSubmitting}
                     rows={3}
                     placeholder="Share a role, RTL/architecture problem, or collaboration note..."
                     value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
+                    onChange={(e) => {
+                      if (errorMessage) setErrorMessage('');
+                      setFormData({ ...formData, message: e.target.value });
+                    }}
                     style={{
                       width: '100%',
                       padding: '11px 12px',
@@ -246,10 +315,50 @@ export function Contact({ onSay, onViewArchive }: ContactProps) {
                     }}
                   />
                 </div>
+
+                {errorMessage && (
+                  <div
+                    role="alert"
+                    aria-live="polite"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '10px 12px',
+                      borderRadius: 10,
+                      border: '2px solid var(--ink)',
+                      background: 'var(--tomato)',
+                      color: 'var(--cream)',
+                      fontSize: 13.5,
+                      fontWeight: 700,
+                    }}
+                  >
+                    <AlertCircle size={16} style={{ flexShrink: 0 }} aria-hidden="true" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
                 <div>
-                  <button type="submit" className="bkm-btn bkm-btn-cobalt">
-                    <span>Transmit Email</span>
-                    <Send size={14} aria-hidden="true" />
+                  <button
+                    type="submit"
+                    className="bkm-btn bkm-btn-cobalt"
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                    style={{
+                      opacity: isSubmitting ? 0.78 : 1,
+                      cursor: isSubmitting ? 'wait' : undefined,
+                    }}
+                  >
+                    <span>{isSubmitting ? 'Transmitting...' : 'Transmit Email'}</span>
+                    {isSubmitting ? (
+                      <Loader2
+                        size={14}
+                        style={{ animation: 'bkm-turn 0.9s linear infinite' }}
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <Send size={14} aria-hidden="true" />
+                    )}
                   </button>
                 </div>
               </form>

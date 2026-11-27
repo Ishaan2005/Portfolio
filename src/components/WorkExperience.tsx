@@ -1,4 +1,4 @@
-import { Building2, Calendar, GraduationCap, MapPin, Server } from 'lucide-react';
+import { Building2, Calendar, MapPin, Server } from 'lucide-react';
 import {
   EDUCATION,
   WORK_EXPERIENCE,
@@ -21,18 +21,6 @@ export function WorkExperience() {
         {/* Education Editorial Banner */}
         <div className="bkm-edu-banner">
           <div style={{ maxWidth: '64ch' }}>
-            <div
-              className="bkm-mono"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                marginBottom: 8,
-              }}
-            >
-              <GraduationCap size={15} aria-hidden="true" />
-              <span>EDUCATION · {EDUCATION.graduation.toUpperCase()}</span>
-            </div>
             <h3 style={{ fontSize: 'clamp(20px, 2.2vw, 28px)', fontWeight: 800, lineHeight: 1.15 }}>
               {EDUCATION.degree}
             </h3>
